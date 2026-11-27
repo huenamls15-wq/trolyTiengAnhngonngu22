@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trợ giảng Song ngữ GDPT 2018 (Lớp 1 - Lớp 9)</title>
+  <title>Trợ giảng Song ngữ (Lớp 1 - Lớp 9)</title>
   <style>
     :root {
       --primary: #1a73e8;
@@ -21,12 +21,12 @@
     .app { width: 100%; max-width: 960px; background: var(--chat-bg); display: flex; flex-direction: column; height: 100vh; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
     
     /* Header */
-    .header { background: linear-gradient(135deg, #1a73e8, #0f4c81); color: #fff; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; }
-    .header h1 { font-size: 1.15rem; font-weight: 700; }
-    .header p { font-size: 0.82rem; opacity: 0.92; margin-top: 2px; }
+    .header { background: linear-gradient(135deg, #1a73e8, #0f4c81); color: #fff; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    .header h1 { font-size: 1.1rem; font-weight: 700; }
+    .header p { font-size: 0.8rem; opacity: 0.92; margin-top: 2px; }
     .badge { background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 14px; font-size: 0.78rem; font-weight: 600; white-space: nowrap; }
 
-    /* Control Bar: Grade & Subject Selectors */
+    /* Control Bar */
     .control-panel { background: #f1f5f9; border-bottom: 1px solid var(--border); padding: 10px 16px; display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
     .grade-row { display: flex; align-items: center; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
     .grade-label { font-size: 0.82rem; font-weight: 700; color: var(--muted); white-space: nowrap; margin-right: 4px; }
@@ -41,19 +41,19 @@
     .subj-chip.situational:hover { background: #ccfbf1; }
 
     /* Chat Area */
-    .messages { flex: 1; padding: 18px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
-    .msg { max-width: 92%; padding: 14px 16px; border-radius: 14px; line-height: 1.5; font-size: 0.94rem; animation: fadeIn 0.2s ease; }
+    .messages { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
+    .msg { max-width: 94%; padding: 14px 16px; border-radius: 14px; line-height: 1.5; font-size: 0.93rem; animation: fadeIn 0.2s ease; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
     .msg.bot { background: var(--bot-msg); align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid #cbd5e1; }
     .msg.user { background: var(--user-msg); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
     
-    /* Vocabulary & Activity Cards inside Bot Msg */
-    .topic-header { font-weight: 700; color: #0f172a; margin-bottom: 10px; font-size: 1rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; }
+    /* Cards */
+    .topic-header { font-weight: 700; color: #0f172a; margin-bottom: 10px; font-size: 0.98rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; }
     .card { background: #fff; border: 1px solid #cbd5e1; border-radius: 10px; padding: 10px 12px; margin-top: 8px; }
     .stage-tag { display: inline-block; background: #e0f2fe; color: #0369a1; font-size: 0.74rem; font-weight: 700; padding: 2px 8px; border-radius: 6px; margin-bottom: 5px; }
     .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
     .en-text { font-weight: 700; color: var(--primary-dark); font-size: 0.98rem; }
-    .ipa { color: #dc2626; font-family: monospace; font-size: 0.85rem; margin: 3px 0; }
+    .ipa { color: #dc2626; font-family: monospace; font-size: 0.84rem; margin: 3px 0; }
     .vi-text { color: #334155; font-size: 0.9rem; }
     .audio-btns { display: flex; gap: 5px; flex-shrink: 0; }
     .speak-btn { background: #eff6ff; color: var(--primary); border: 1px solid #bfdbfe; border-radius: 6px; padding: 5px 8px; cursor: pointer; font-size: 0.76rem; font-weight: 600; }
@@ -71,8 +71,8 @@
   <div class="app">
     <div class="header">
       <div>
-        <h1>🤖 Trợ giảng Song ngữ GDPT 2018 (Lớp 1 – Lớp 9)</h1>
-        <p>Đầy đủ các môn học & hoạt động sư phạm trên lớp cho giáo viên không chuyên Tiếng Anh</p>
+        <h1>🤖 Trợ giảng Song ngữ (Lớp 1 – Lớp 9)</h1>
+        <p>Câu giao tiếp ngắn gọn theo 4 bước: Khởi động • Khám phá • Luyện tập • Vận dụng</p>
       </div>
       <span class="badge" id="currentGradeBadge">Đang chọn: Lớp 1</span>
     </div>
@@ -86,13 +86,13 @@
 
     <div class="messages" id="messages">
       <div class="msg bot">
-        Xin chào thầy/cô! Phiên bản nâng cấp đã <b>tách riêng môn Tin học và Công nghệ</b> (từ Lớp 3 đến Lớp 9), mở rộng các mẫu câu theo <b>từng hoạt động dạy học trên lớp</b> và tối ưu <b>giọng đọc tiếng Anh chuẩn trên điện thoại</b>.<br><br>
-        Thầy/cô hãy chọn <b>Khối lớp</b> và bấm vào tên môn học bất kỳ (hoặc nhập từ khóa như: <i>"trò chơi", "thảo luận nhóm", "tin học", "công nghệ", "giáo dục địa phương"</i>) để sử dụng ngay!
+        Xin chào thầy/cô! Kho dữ liệu được biên soạn chuyên sâu cho <b>Lớp 1 – Lớp 9</b> với các câu giao tiếp <b>ngắn gọn, dễ đọc</b> theo đúng 4 hoạt động: <i>Khởi động, Khám phá, Luyện tập – Thực hành và Vận dụng</i>.<br><br>
+        Thầy/cô hãy chọn <b>Khối lớp</b> rồi bấm trực tiếp vào tên môn học phía trên, hoặc gõ từ khóa (VD: <i>"khởi động", "làm việc nhóm", "khen học sinh", "thí nghiệm", "scratch"</i>) để tra cứu nhanh!
       </div>
     </div>
 
     <div class="input-box">
-      <input type="text" id="userInput" placeholder="Nhập tên môn học, hoạt động (trò chơi, thảo luận nhóm...) hoặc thuật ngữ..." onkeypress="if(event.key==='Enter') sendMessage()" />
+      <input type="text" id="userInput" placeholder="Nhập tên môn học hoặc tình huống (VD: làm việc nhóm, kiểm tra bài cũ...)" onkeypress="if(event.key==='Enter') sendMessage()" />
       <button class="send-btn" onclick="sendMessage()">Gửi</button>
     </div>
   </div>
@@ -100,8 +100,8 @@
   <script>
     let currentGrade = 1;
 
-    // CẤU TRÚC MÔN HỌC CHUẨN CHƯƠNG TRÌNH GDPT 2018 (ĐÃ TÁCH RIÊNG TIN HỌC VÀ CÔNG NGHỆ)
-    const CURRICULUM_2018 = {
+    // DANH SÁCH MÔN HỌC (TÁCH RIÊNG TIN HỌC & CÔNG NGHỆ)
+    const CURRICULUM = {
       1: ["Tiếng Việt", "Toán", "Đạo đức", "Tự nhiên và Xã hội", "Giáo dục thể chất", "Âm nhạc", "Mỹ thuật", "Hoạt động trải nghiệm", "Giáo dục địa phương"],
       2: ["Tiếng Việt", "Toán", "Đạo đức", "Tự nhiên và Xã hội", "Giáo dục thể chất", "Âm nhạc", "Mỹ thuật", "Hoạt động trải nghiệm", "Giáo dục địa phương"],
       3: ["Tiếng Việt", "Toán", "Đạo đức", "Tự nhiên và Xã hội", "Tin học", "Công nghệ", "Giáo dục thể chất", "Âm nhạc", "Mỹ thuật", "Hoạt động trải nghiệm", "Giáo dục địa phương"],
@@ -113,186 +113,237 @@
       9: ["Ngữ văn", "Toán", "Giáo dục công dân", "Khoa học tự nhiên", "Lịch sử và Địa lí", "Tin học", "Công nghệ", "Giáo dục thể chất", "Âm nhạc", "Mỹ thuật", "Hoạt động trải nghiệm, hướng nghiệp", "Giáo dục địa phương"]
     };
 
-    // KHO DỮ LIỆU MỞ RỘNG THEO TỪNG HOẠT ĐỘNG DẠY HỌC TRÊN LỚP
+    // KHO DỮ LIỆU CHUYÊN SÂU THEO 4 HOẠT ĐỘNG TRÊN LỚP
     const KNOWLEDGE_BASE = [
       {
         subject: "Ổn định & Quản lý lớp",
-        keywords: ["ổn định", "chào", "bắt đầu", "trật tự", "mở sách", "lớp học", "câu lệnh"],
+        keywords: ["ổn định", "chào", "bắt đầu", "trật tự", "mở sách", "kiểm tra bài cũ", "câu lệnh"],
         grades: [1,2,3,4,5,6,7,8,9],
-        title: "Hoạt động Mở đầu & Quản lý lớp học (Classroom Management)",
+        title: "Giao tiếp quản lý lớp học ngắn gọn (Dùng cho mọi tiết học)",
         items: [
-          { stage: "Chào hỏi & Điểm danh", en: "Good morning class! Who is absent today?", ipa: "/ɡʊd ˈmɔːrnɪŋ klæs! huː ɪz ˈæbsənt təˈdeɪ/", vi: "Chào buổi sáng cả lớp! Hôm nay bạn nào vắng mặt?" },
-          { stage: "Ổn định trật tự", en: "Eyes on me, please! Stop talking and listen carefully.", ipa: "/aɪz ɑːn miː, pliːz! stɑːp ˈtɔːkɪŋ ænd ˈlɪsn ˈkerfəli/", vi: "Các em nhìn lên cô/thầy nào! Ngừng nói chuyện và lắng nghe thật kỹ nhé." },
-          { stage: "Chuẩn bị đồ dùng", en: "Take out your notebooks, textbooks, and pens.", ipa: "/teɪk aʊt jɔːr ˈnoʊtbʊks, ˈtekstbʊks, ænd penz/", vi: "Các em lấy vở ghi, sách giáo khoa và bút ra bàn." },
-          { stage: "Mời phát biểu", en: "Raise your hand if you know the answer. Don't shout out!", ipa: "/reɪz jɔːr hænd ɪf ju noʊ ði ˈænsər. doʊnt ʃaʊt aʊt/", vi: "Giơ tay nếu em biết câu trả lời. Không nói leo nhé!" }
+          { stage: "Chào hỏi đầu giờ", en: "Good morning, class! Sit down, please.", ipa: "/ɡʊd ˈmɔːrnɪŋ, klæs! sɪt daʊn, pliːz/", vi: "Chào buổi sáng cả lớp! Mời các em ngồi xuống." },
+          { stage: "Ổn định trật tự", en: "Be quiet and look at the board.", ipa: "/bi ˈkwaɪət ænd lʊk æt ðə bɔːrd/", vi: "Giữ trật tự và nhìn lên bảng nào." },
+          { stage: "Mở sách giáo khoa", en: "Open your book to page ten.", ipa: "/ˈoʊpən jɔːr bʊk tə peɪdʒ ten/", vi: "Mở sách giáo khoa trang 10." },
+          { stage: "Mời phát biểu", en: "Raise your hand! Who can answer?", ipa: "/reɪz jɔːr hænd! huː kæn ˈænsər/", vi: "Giơ tay lên nào! Ai có thể trả lời?" },
+          { stage: "Kiểm tra hiểu bài", en: "Do you understand? Any questions?", ipa: "/duː ju ˌʌndərˈstænd? ˈeni ˈkwestʃənz/", vi: "Các em có hiểu không? Có câu hỏi nào không?" },
+          { stage: "Kết thúc tiết học", en: "Time is up. See you next lesson!", ipa: "/taɪm ɪz ʌp. siː ju nekst ˈlesn/", vi: "Hết giờ rồi. Hẹn gặp lại các em tiết sau!" }
         ]
       },
       {
         subject: "Trò chơi & Thảo luận nhóm",
-        keywords: ["trò chơi", "thảo luận", "nhóm", "hoạt động nhóm", "khen", "thi đua", "game"],
+        keywords: ["trò chơi", "thảo luận", "nhóm", "hoạt động nhóm", "khen", "thi đua", "game", "đánh giá"],
         grades: [1,2,3,4,5,6,7,8,9],
-        title: "Hoạt động Trò chơi, Thảo luận nhóm & Khen thưởng",
+        title: "Tổ chức trò chơi, làm việc nhóm & khen ngợi",
         items: [
-          { stage: "Khởi động trò chơi", en: "Let's play a warm-up game! Are you ready?", ipa: "/lets pleɪ ə ˈwɔːrm ʌp ɡeɪm! ɑːr ju ˈredi/", vi: "Chúng ta cùng chơi một trò chơi khởi động nhé! Các em sẵn sàng chưa?" },
-          { stage: "Chia nhóm thảo luận", en: "Divide into four teams. You have three minutes to discuss.", ipa: "/dɪˈvaɪd ˈɪntuː fɔːr tiːmz. ju hæv θriː ˈmɪnɪts tə dɪˈskʌs/", vi: "Chia thành 4 đội. Các em có 3 phút để thảo luận." },
-          { stage: "Trình bày kết quả", en: "Time is up! Which group wants to present first?", ipa: "/taɪm ɪz ʌp! wɪtʃ ɡruːp wɑːnts tə prɪˈzent fɜːrst/", vi: "Hết giờ rồi! Nhóm nào xung phong lên trình bày trước?" },
-          { stage: "Khen ngợi & Tính điểm", en: "Awesome! Team A gets ten points. Let's give them a big clap!", ipa: "/ˈɔːsəm! tiːm eɪ ɡets ten pɔɪnts. lets ɡɪv ðəm ə bɪɡ klæp/", vi: "Tuyệt vời! Đội A được 10 điểm. Cả lớp thưởng cho đội bạn một tràng pháo tay thật lớn!" }
+          { stage: "Khởi động trò chơi", en: "Let's play a quick game! Ready?", ipa: "/lets pleɪ ə kwɪk ɡeɪm! ˈredi/", vi: "Cùng chơi một trò chơi nhanh nhé! Sẵn sàng chưa?" },
+          { stage: "Làm việc cặp / nhóm", en: "Work in pairs. / Work in groups of four.", ipa: "/wɜːrk ɪn perz. / wɜːrk ɪn ɡruːps əv fɔːr/", vi: "Làm việc theo cặp. / Làm việc theo nhóm 4 bạn." },
+          { stage: "Giới hạn thời gian", en: "You have three minutes. Go!", ipa: "/ju hæv θriː ˈmɪnɪts. ɡoʊ/", vi: "Các em có 3 phút. Bắt đầu!" },
+          { stage: "Mời trình bày", en: "Stop now! Come here and share your answer.", ipa: "/stɑːp naʊ! kʌm hɪr ænd ʃer jɔːr ˈænsər/", vi: "Dừng lại nào! Lên đây và chia sẻ đáp án của em." },
+          { stage: "Khen ngợi & Khích lệ", en: "Great job! Your team gets ten points.", ipa: "/ɡreɪt dʒɑːb! jɔːr tiːm ɡets ten pɔɪnts/", vi: "Làm tốt lắm! Đội của các em được 10 điểm." },
+          { stage: "Động viên khi làm sai", en: "Good try! Let's think again.", ipa: "/ɡʊd traɪ! lets θɪŋk əˈɡen/", vi: "Cố gắng tốt lắm! Chúng ta cùng suy nghĩ lại nhé." }
+        ]
+      },
+      {
+        subject: "Toán (Tiểu học)",
+        keywords: ["toán", "math", "cộng", "trừ", "nhân", "chia", "phân số", "hình học", "tính nhẩm"],
+        grades: [1,2,3,4,5],
+        title: "Môn Toán Tiểu học (Lớp 1 – 5)",
+        items: [
+          { stage: "1. Khởi động (Tính nhẩm)", en: "Let's count together! What is five plus three?", ipa: "/lets kaʊnt təˈɡeðər! wʌt ɪz faɪv plʌs θriː/", vi: "Cùng đếm nào! 5 cộng 3 bằng mấy?" },
+          { stage: "2. Khám phá (Từ khóa)", en: "Add, Subtract, Multiply, Divide, Fraction, Triangle.", ipa: "/æd, səbˈtrækt, ˈmʌltɪplaɪ, dɪˈvaɪd, ˈfrækʃn, ˈtraɪæŋɡl/", vi: "Cộng, Trừ, Nhân, Chia, Phân số, Hình tam giác." },
+          { stage: "3. Hoạt động / Luyện tập", en: "Do exercise one in your notebook.", ipa: "/duː ˈeksərsaɪz wʌn ɪn jɔːr ˈnoʊtbʊk/", vi: "Làm bài tập 1 vào vở của em." },
+          { stage: "3. Thực hành đo vẽ", en: "Use your ruler to measure this line.", ipa: "/juːz jɔːr ˈruːlər tə ˈmeʒər ðɪs laɪn/", vi: "Dùng thước kẻ để đo đoạn thẳng này." },
+          { stage: "4. Vận dụng (Thực tế)", en: "How much money do you need to buy two pens?", ipa: "/haʊ mʌtʃ ˈmʌni duː ju niːd tə baɪ tuː penz/", vi: "Em cần bao nhiêu tiền để mua 2 chiếc bút?" }
+        ]
+      },
+      {
+        subject: "Toán (THCS)",
+        keywords: ["toán", "math", "phương trình", "hình học", "biểu thức", "chứng minh", "hàm số", "xác suất"],
+        grades: [6,7,8,9],
+        title: "Môn Toán THCS (Lớp 6 – 9)",
+        items: [
+          { stage: "1. Mở đầu (Tình huống)", en: "Read the opening problem in your textbook.", ipa: "/riːd ði ˈoʊpnɪŋ ˈprɑːbləm ɪn jɔːr ˈtekstbʊk/", vi: "Đọc bài toán mở đầu trong sách giáo khoa." },
+          { stage: "2. Hình thành kiến thức", en: "Integer, Equation, Angle, Parallel, Probability.", ipa: "/ˈɪntɪdʒər, ɪˈkweɪʒn, ˈæŋɡl, ˈpærəlel, ˌprɑːbəˈbɪləti/", vi: "Số nguyên, Phương trình, Góc, Song song, Xác suất." },
+          { stage: "3. Luyện tập trên bảng", en: "Solve for x and show your steps.", ipa: "/sɑːlv fɔːr eks ænd ʃoʊ jɔːr steps/", vi: "Giải tìm x và trình bày các bước làm." },
+          { stage: "3. Thực hành hình học", en: "Draw the figure and prove these triangles are equal.", ipa: "/drɔː ðə ˈfɪɡjər ænd pruːv ðiːz ˈtraɪæŋɡlz ɑːr ˈiːkwəl/", vi: "Vẽ hình và chứng minh hai tam giác này bằng nhau." },
+          { stage: "4. Vận dụng (Thực tế)", en: "Apply this formula to solve a real-life problem.", ipa: "/əˈplaɪ ðɪs ˈfɔːrmjələ tə sɑːlv ə ˈriːəl laɪf ˈprɑːbləm/", vi: "Áp dụng công thức này để giải một bài toán thực tế." }
+        ]
+      },
+      {
+        subject: "Tiếng Việt (Tiểu học)",
+        keywords: ["tiếng việt", "đọc", "viết", "chính tả", "kể chuyện", "luyện từ và câu"],
+        grades: [1,2,3,4,5],
+        title: "Môn Tiếng Việt (Lớp 1 – 5)",
+        items: [
+          { stage: "1. Khởi động (Quan sát tranh)", en: "Look at the picture. What do you see?", ipa: "/lʊk æt ðə ˈpɪktʃər. wʌt duː ju siː/", vi: "Nhìn vào bức tranh. Em thấy gì nào?" },
+          { stage: "2. Đọc thành tiếng", en: "Listen to me first, then read aloud.", ipa: "/ˈlɪsn tə miː fɜːrst, ðen riːd əˈlaʊd/", vi: "Nghe cô/thầy đọc mẫu trước, sau đó đọc to theo nhé." },
+          { stage: "3. Luyện viết / Chính tả", en: "Sit straight and write neatly in your notebook.", ipa: "/sɪt streɪt ænd raɪt ˈniːtli ɪn jɔːr ˈnoʊtbʊk/", vi: "Ngồi thẳng lưng và viết nắn nót vào vở." },
+          { stage: "3. Kể chuyện theo tranh", en: "Retell the story in your own words.", ipa: "/ˌriːˈtel ðə ˈstɔːri ɪn jɔːr oʊn wɜːrdz/", vi: "Kể lại câu chuyện bằng lời của em." },
+          { stage: "4. Vận dụng (Gia đình)", en: "Share this story with your parents tonight.", ipa: "/ʃer ðɪs ˈstɔːri wɪð jɔːr ˈperənts təˈnaɪt/", vi: "Tối nay em hãy kể câu chuyện này cho bố mẹ nghe nhé." }
+        ]
+      },
+      {
+        subject: "Ngữ văn (THCS)",
+        keywords: ["ngữ văn", "văn", "thơ", "tác phẩm", "nhân vật", "đoạn văn", "nghị luận"],
+        grades: [6,7,8,9],
+        title: "Môn Ngữ văn (Lớp 6 – 9)",
+        items: [
+          { stage: "1. Khởi động (Trải nghiệm)", en: "Have you ever read a story like this?", ipa: "/hæv ju ˈevər red ə ˈstɔːri laɪk ðɪs/", vi: "Em đã từng đọc câu chuyện nào giống thế này chưa?" },
+          { stage: "2. Khám phá văn bản", en: "Main idea, Character, Plot, Poem, Metaphor.", ipa: "/meɪn aɪˈdiːə, ˈkærəktər, plɑːt, ˈpoʊəm, ˈmetəfər/", vi: "Ý chính, Nhân vật, Cốt truyện, Bài thơ, Ẩn dụ." },
+          { stage: "3. Thảo luận đọc hiểu", en: "How does the main character feel? Why?", ipa: "/haʊ dʌz ðə meɪn ˈkærəktər fiːl? waɪ/", vi: "Nhân vật chính cảm thấy thế nào? Tại sao?" },
+          { stage: "3. Thực hành viết", en: "Write a short paragraph about this topic.", ipa: "/raɪt ə ʃɔːrt ˈpærəɡræf əˈbaʊt ðɪs ˈtɑːpɪk/", vi: "Viết một đoạn văn ngắn về chủ đề này." },
+          { stage: "4. Nói và nghe", en: "Present your opinion clearly to the class.", ipa: "/prɪˈzent jɔːr əˈpɪnjən ˈklɪrli tə ðə klæs/", vi: "Trình bày ý kiến của em thật rõ ràng trước lớp." }
         ]
       },
       {
         subject: "Tin học",
         keywords: ["tin học", "máy tính", "bàn phím", "chuột", "lập trình", "scratch", "phần mềm", "internet", "tệp", "thư mục"],
         grades: [3,4,5,6,7,8,9],
-        title: "Môn Tin học (Informatics) – Các hoạt động thực hành phòng máy",
+        title: "Môn Tin học (Lớp 3 – 9)",
         items: [
-          { stage: "Khởi động phòng máy", en: "Sit properly in front of your computer and turn on the monitor.", ipa: "/sɪt ˈprɑːpərli ɪn frʌnt əv jɔːr kəmˈpjuːtər ænd tɜːrn ɑːn ðə ˈmɑːnɪtər/", vi: "Ngồi đúng tư thế trước máy tính và bật màn hình lên." },
-          { stage: "Thuật ngữ phần cứng & dữ liệu", en: "Keyboard, Mouse, CPU, Folder, File, and Storage device.", ipa: "/ˈkiːbɔːrd, maʊs, ˌsiː piː ˈjuː, ˈfoʊldər, faɪl, ænd ˈstɔːrɪdʒ dɪˈvaɪs/", vi: "Bàn phím, Chuột, Bộ xử lý, Thư mục, Tệp tin và Thiết bị lưu trữ." },
-          { stage: "Thực hành thao tác", en: "Double-click the icon to open the software, then type your text.", ipa: "/ˈdʌbl klɪk ði ˈaɪkɑːn tə ˈoʊpən ðə ˈsɔːftwer, ðen taɪp jɔːr tekst/", vi: "Nháy đúp chuột vào biểu tượng để mở phần mềm, sau đó gõ văn bản của em." },
-          { stage: "Lập trình & Thuật toán", en: "Drag and drop the command blocks to create a loop in Scratch.", ipa: "/dræɡ ænd drɑːp ðə kəˈmænd blɑːks tə kriˈeɪt ə luːp ɪn skrætʃ/", vi: "Kéo thả các khối lệnh để tạo vòng lặp trong phần mềm Scratch." },
-          { stage: "Củng cố & Tắt máy", en: "Save your work before closing the program and shutting down the computer.", ipa: "/seɪv jɔːr wɜːrk bɪˈfɔːr ˈkloʊzɪŋ ðə ˈproʊɡræm ænd ˈʃʌtɪŋ daʊn ðə kəmˈpjuːtər/", vi: "Lưu bài làm trước khi đóng chương trình và tắt máy tính." }
+          { stage: "1. Khởi động phòng máy", en: "Turn on your computer and sit properly.", ipa: "/tɜːrn ɑːn jɔːr kəmˈpjuːtər ænd sɪt ˈprɑːpərli/", vi: "Bật máy tính và ngồi đúng tư thế." },
+          { stage: "2. Khám phá (Thuật ngữ)", en: "Mouse, Keyboard, Folder, File, Algorithm, Loop.", ipa: "/maʊs, ˈkiːbɔːrd, ˈfoʊldər, faɪl, ˈælɡərɪðəm, luːp/", vi: "Chuột, Bàn phím, Thư mục, Tệp tin, Thuật toán, Vòng lặp." },
+          { stage: "3. Thực hành thao tác", en: "Click the left button. / Double-click the icon.", ipa: "/klɪk ðə left ˈbʌtn. / ˈdʌbl klɪk ði ˈaɪkɑːn/", vi: "Nháy chuột trái. / Nháy đúp vào biểu tượng." },
+          { stage: "3. Lập trình Scratch / Code", en: "Run your program and check for errors.", ipa: "/rʌn jɔːr ˈproʊɡræm ænd tʃek fɔːr ˈerərz/", vi: "Chạy thử chương trình và kiểm tra lỗi." },
+          { stage: "4. Vận dụng & An toàn mạng", en: "Keep your password secret and stay safe online.", ipa: "/kiːp jɔːr ˈpæswɜːrd ˈsiːkrət ænd steɪ seɪf ˌɑːnˈlaɪn/", vi: "Giữ bí mật mật khẩu và giữ an toàn trên mạng." }
         ]
       },
       {
         subject: "Công nghệ",
-        keywords: ["công nghệ", "kỹ thuật", "thủ công", "lắp ghép", "đồ dùng", "điện", "trồng cây", "nấu ăn", "thiết kế"],
+        keywords: ["công nghệ", "kỹ thuật", "lắp ghép", "đồ dùng", "điện", "trồng cây", "nấu ăn", "thiết kế", "mạch điện"],
         grades: [3,4,5,6,7,8,9],
-        title: "Môn Công nghệ (Technology) – Các hoạt động kỹ thuật & đời sống",
+        title: "Môn Công nghệ (Lớp 3 – 9)",
         items: [
-          { stage: "Khởi động & Quan sát", en: "Look at these household appliances and name their functions.", ipa: "/lʊk æt ðiːz ˈhaʊshoʊld əˈplaɪənsɪz ænd neɪm ðer ˈfʌŋkʃnz/", vi: "Hãy quan sát các đồ dùng gia đình này và nêu công dụng của chúng." },
-          { stage: "Thuật ngữ kỹ thuật", en: "Materials, Tools, Technical drawing, Electricity safety, and Design.", ipa: "/məˈtɪriəlz, tuːlz, ˈteknɪkl ˈdrɔːɪŋ, ɪˌlekˈtrɪsəti ˈseɪfti, ænd dɪˈzaɪn/", vi: "Vật liệu, Dụng cụ, Bản vẽ kỹ thuật, An toàn điện và Thiết kế." },
-          { stage: "Thực hành lắp ráp / trồng trọt", en: "Follow the steps carefully to assemble the model / plant the flowers.", ipa: "/ˈfɑːloʊ ðə steps ˈkerfəli tə əˈsembl ðə ˈmɑːdl / plænt ðə ˈflaʊərz/", vi: "Thực hiện cẩn thận từng bước để lắp ghép mô hình / trồng hoa." },
-          { stage: "An toàn & Đánh giá", en: "Use tools safely and check the quality of your product.", ipa: "/juːz tuːlz ˈseɪfli ænd tʃek ðə ˈkwɑːləti əv jɔːr ˈprɑːdʌkt/", vi: "Sử dụng dụng cụ an toàn và kiểm tra chất lượng sản phẩm của nhóm em." }
+          { stage: "1. Khởi động (Đời sống)", en: "What tool do we use for this job?", ipa: "/wʌt tuːl duː wi juːz fɔːr ðɪs dʒɑːb/", vi: "Chúng ta dùng dụng cụ gì cho công việc này?" },
+          { stage: "2. Khám phá (Từ khóa)", en: "Material, Tool, Design, Electric circuit, Safety.", ipa: "/məˈtɪriəl, tuːl, dɪˈzaɪn, ɪˈlektrɪk ˈsɜːrkɪt, ˈseɪfti/", vi: "Vật liệu, Dụng cụ, Thiết kế, Mạch điện, An toàn." },
+          { stage: "3. Thực hành lắp ráp / trồng cây", en: "Follow step one, then step two carefully.", ipa: "/ˈfɑːloʊ step wʌn, ðen step tuː ˈkerfəli/", vi: "Làm cẩn thận bước 1, sau đó đến bước 2." },
+          { stage: "3. Lưu ý an toàn", en: "Be careful with scissors and electricity!", ipa: "/bi ˈkerfl wɪð ˈsɪzərz ænd ɪˌlekˈtrɪsəti/", vi: "Cẩn thận với kéo và điện nhé!" },
+          { stage: "4. Vận dụng & Đánh giá", en: "Show your product and check if it works.", ipa: "/ʃoʊ jɔːr ˈprɑːdʌkt ænd tʃek ɪf ɪt wɜːrks/", vi: "Trưng bày sản phẩm và kiểm tra xem nó có hoạt động không." }
         ]
       },
       {
-        subject: "Toán",
-        keywords: ["toán", "math", "cộng", "trừ", "nhân", "chia", "phân số", "hình học", "chu vi", "diện tích", "phương trình"],
-        grades: [1,2,3,4,5,6,7,8,9],
-        title: "Môn Toán (Mathematics) – Các hoạt động tính toán & giải toán",
+        subject: "Tự nhiên & Xã hội / Khoa học",
+        keywords: ["tự nhiên và xã hội", "khoa học", "thực vật", "động vật", "nước", "không khí", "sức khỏe"],
+        grades: [1,2,3,4,5],
+        title: "Tự nhiên và Xã hội / Khoa học (Lớp 1 – 5)",
         items: [
-          { stage: "Khởi động tính nhẩm", en: "Let's do a quick mental math warm-up! What is seven times eight?", ipa: "/lets duː ə kwɪk ˈmentl mæθ ˈwɔːrm ʌp! wʌt ɪz ˈsevn taɪmz eɪt/", vi: "Cùng khởi động tính nhẩm nhanh nhé! 7 nhân 8 bằng bao nhiêu?" },
-          { stage: "Thuật ngữ số học & phân số", en: "Addition, Subtraction, Multiplication, Division, Numerator, Denominator.", ipa: "/əˈdɪʃn, səbˈtrækʃn, ˌmʌltɪplɪˈkeɪʃn, dɪˈvɪʒn, ˈnuːməreɪtər, dɪˈnɑːmɪneɪtər/", vi: "Phép cộng, Phép trừ, Phép nhân, Phép chia, Tử số, Mẫu số." },
-          { stage: "Thực hành hình học", en: "Use your ruler and compass to draw a triangle and calculate its perimeter.", ipa: "/juːz jɔːr ˈruːlər ænd ˈkʌmpəs tə drɔː ə ˈtraɪæŋɡl ænd ˈkælkjuleɪt ɪts pəˈrɪmɪtər/", vi: "Dùng thước kẻ và compa vẽ một hình tam giác và tính chu vi của nó." },
-          { stage: "Luyện tập giải bài", en: "Come to the board and show your step-by-step solution.", ipa: "/kʌm tə ðə bɔːrd ænd ʃoʊ jɔːr ˌstep baɪ ˈstep səˈluːʃn/", vi: "Mời em lên bảng và trình bày các bước giải bài toán." }
+          { stage: "1. Khởi động (Tò mò)", en: "Why do plants need sunlight and water?", ipa: "/waɪ duː plænts niːd ˈsʌnlaɪt ænd ˈwɔːtər/", vi: "Tại sao cây cần ánh sáng mặt trời và nước?" },
+          { stage: "2. Khám phá (Từ khóa)", en: "Plant, Animal, Water, Air, Light, Healthy food.", ipa: "/plænt, ˈænɪml, ˈwɔːtər, er, laɪt, ˈhelθi fuːd/", vi: "Thực vật, Động vật, Nước, Không khí, Ánh sáng, Thực phẩm lành mạnh." },
+          { stage: "3. Thực hành quan sát", en: "Look closely and tell me what happens.", ipa: "/lʊk ˈkloʊsli ænd tel miː wʌt ˈhæpənz/", vi: "Quan sát kỹ và cho cô/thầy biết điều gì xảy ra." },
+          { stage: "4. Vận dụng (Bảo vệ môi trường)", en: "Save water and put trash in the bin.", ipa: "/seɪv ˈwɔːtər ænd pʊt træʃ ɪn ðə bɪn/", vi: "Tiết kiệm nước và bỏ rác đúng nơi quy định." }
         ]
       },
       {
-        subject: "Tiếng Việt / Ngữ văn",
-        keywords: ["tiếng việt", "ngữ văn", "đọc", "viết", "văn", "thơ", "câu", "từ", "đoạn văn", "kể chuyện"],
-        grades: [1,2,3,4,5,6,7,8,9],
-        title: "Môn Tiếng Việt / Ngữ văn – Đọc hiểu, Viết & Kể chuyện",
+        subject: "Khoa học tự nhiên (THCS)",
+        keywords: ["khoa học tự nhiên", "vật lí", "hóa học", "sinh học", "thí nghiệm", "tế bào", "năng lượng", "phản ứng"],
+        grades: [6,7,8,9],
+        title: "Môn Khoa học tự nhiên (Lớp 6 – 9)",
         items: [
-          { stage: "Khởi động & Dự đoán", en: "Look at the illustration and guess what the story is about.", ipa: "/lʊk æt ði ˌɪləˈstreɪʃn ænd ɡes wʌt ðə ˈstɔːri ɪz əˈbaʊt/", vi: "Quan sát tranh minh họa và đoán xem câu chuyện nói về điều gì." },
-          { stage: "Luyện đọc diễn cảm", en: "Read the poem aloud with clear pronunciation and proper intonation.", ipa: "/riːd ðə ˈpoʊəm əˈlaʊd wɪð klɪr prəˌnʌnsiˈeɪʃn ænd ˈprɑːpər ˌɪntəˈneɪʃn/", vi: "Đọc to bài thơ với phát âm rõ ràng và ngữ điệu phù hợp." },
-          { stage: "Thảo luận nội dung", en: "Discuss in pairs: What is the main message of this passage?", ipa: "/dɪˈskʌs ɪn perz: wʌt ɪz ðə meɪn ˈmesɪdʒ əv ðɪs ˈpæsɪdʒ/", vi: "Thảo luận theo cặp: Thông điệp chính của đoạn văn này là gì?" },
-          { stage: "Thực hành viết", en: "Write a short paragraph expressing your thoughts about the main character.", ipa: "/raɪt ə ʃɔːrt ˈpærəɡræf ɪkˈspresɪŋ jɔːr θɔːts əˈbaʊt ðə meɪn ˈkærəktər/", vi: "Viết một đoạn văn ngắn nêu cảm nghĩ của em về nhân vật chính." }
-        ]
-      },
-      {
-        subject: "Tự nhiên & Khoa học",
-        keywords: ["tự nhiên và xã hội", "khoa học", "khoa học tự nhiên", "sinh học", "vật lí", "hóa học", "thực vật", "nước", "thí nghiệm"],
-        grades: [1,2,3,4,5,6,7,8,9],
-        title: "Tự nhiên & Xã hội / Khoa học / Khoa học tự nhiên",
-        items: [
-          { stage: "Đặt vấn đề khám phá", en: "Why do plants need sunlight and water to grow?", ipa: "/waɪ duː plænts niːd ˈsʌnlaɪt ænd ˈwɔːtər tə ɡroʊ/", vi: "Tại sao thực vật cần ánh sáng mặt trời và nước để phát triển?" },
-          { stage: "Thuật ngữ khoa học", en: "Photosynthesis, Solid, Liquid, Gas, Energy, and Ecosystem.", ipa: "/ˌfoʊtoʊˈsɪnθəsɪs, ˈsɑːlɪd, ˈlɪkwɪd, ɡæs, ˈenərdʒi, ænd ˈiːkoʊsɪstəm/", vi: "Quang hợp, Thể rắn, Thể lỏng, Thể khí, Năng lượng và Hệ sinh thái." },
-          { stage: "Thực hành thí nghiệm", en: "Observe the experiment in groups and record your findings in the table.", ipa: "/əbˈzɜːrv ði ɪkˈsperɪmənt ɪn ɡruːps ænd rɪˈkɔːrd jɔːr ˈfaɪndɪŋz ɪn ðə ˈteɪbl/", vi: "Quan sát thí nghiệm theo nhóm và ghi lại kết quả vào bảng." },
-          { stage: "Vận dụng thực tiễn", en: "What can we do to save energy and protect nature around us?", ipa: "/wʌt kæn wi duː tə seɪv ˈenərdʒi ænd prəˈtekt ˈneɪtʃər əˈraʊnd ʌs/", vi: "Chúng ta có thể làm gì để tiết kiệm năng lượng và bảo vệ thiên nhiên xung quanh?" }
+          { stage: "1. Mở đầu (Hiện tượng)", en: "Observe this phenomenon. Can you explain why?", ipa: "/əbˈzɜːrv ðɪs fəˈnɑːmɪnən. kæn ju ɪkˈspleɪn waɪ/", vi: "Quan sát hiện tượng này. Em có thể giải thích tại sao không?" },
+          { stage: "2. Thuật ngữ Lí – Hóa – Sinh", en: "Cell, Energy, Force, Chemical reaction, Acid, Base.", ipa: "/sel, ˈenərdʒi, fɔːrs, ˈkemɪkl riˈækʃn, ˈæsɪd, beɪs/", vi: "Tế bào, Năng lượng, Lực, Phản ứng hóa học, Axit, Bazơ." },
+          { stage: "3. Thực hành thí nghiệm", en: "Do the experiment safely and record the result.", ipa: "/duː ði ɪkˈsperɪmənt ˈseɪfli ænd rɪˈkɔːrd ðə rɪˈzʌlt/", vi: "Làm thí nghiệm an toàn và ghi lại kết quả." },
+          { stage: "4. Vận dụng (Đời sống)", en: "How is this science used in daily life?", ipa: "/haʊ ɪz ðɪs ˈsaɪəns juːzd ɪn ˈdeɪli laɪf/", vi: "Kiến thức khoa học này được ứng dụng thế nào trong đời sống?" }
         ]
       },
       {
         subject: "Lịch sử và Địa lí",
-        keywords: ["lịch sử", "địa lí", "lịch sử và địa lí", "bản đồ", "di sản", "văn hóa", "khí hậu"],
+        keywords: ["lịch sử", "địa lí", "lịch sử và địa lí", "bản đồ", "lược đồ", "di sản", "khí hậu", "triều đại"],
         grades: [4,5,6,7,8,9],
-        title: "Môn Lịch sử và Địa lí – Khai thác lược đồ & Tư liệu",
+        title: "Môn Lịch sử và Địa lí (Lớp 4 – 9)",
         items: [
-          { stage: "Khởi động với bản đồ", en: "Look at the map on the screen and point out Vietnam's neighboring countries.", ipa: "/lʊk æt ðə mæp ɑːn ðə skriːn ænd pɔɪnt aʊt ˌviːetˈnɑːmz ˈneɪbərɪŋ ˈkʌntriz/", vi: "Nhìn vào bản đồ trên màn hình và chỉ ra các quốc gia láng giềng của Việt Nam." },
-          { stage: "Thuật ngữ Sử - Địa", en: "Historical event, Dynasty, Terrain, Climate, Natural resources, Map scale.", ipa: "/hɪˈstɔːrɪkl ɪˈvent, ˈdaɪnəsti, təˈreɪn, ˈklaɪmət, ˈnætʃrəl ˈriːsɔːrsɪz, mæp skeɪl/", vi: "Sự kiện lịch sử, Triều đại, Địa hình, Khí hậu, Tài nguyên thiên nhiên, Tỉ lệ bản đồ." },
-          { stage: "Hoạt động nhóm phân tích", en: "Work in groups to build a timeline of this historical event.", ipa: "/wɜːrk ɪn ɡruːps tə bɪld ə ˈtaɪmlaɪn əv ðɪs hɪˈstɔːrɪkl ɪˈvent/", vi: "Làm việc nhóm để lập trục thời gian của sự kiện lịch sử này." },
-          { stage: "Củng cố & Liên hệ", en: "Explain why we must preserve our national cultural heritage.", ipa: "/ɪkˈspleɪn waɪ wi mʌst prɪˈzɜːrv aʊər ˈnæʃnəl ˈkʌltʃərəl ˈherɪtɪdʒ/", vi: "Giải thích vì sao chúng ta phải gìn giữ di sản văn hóa dân tộc." }
+          { stage: "1. Khởi động (Bản đồ / Tranh)", en: "Look at the map. Where is this place?", ipa: "/lʊk æt ðə mæp. wer ɪz ðɪs pleɪs/", vi: "Nhìn vào bản đồ. Địa điểm này ở đâu?" },
+          { stage: "2. Khám phá (Thuật ngữ)", en: "Map, Climate, River, Mountain, Dynasty, Heritage.", ipa: "/mæp, ˈklaɪmət, ˈrɪvər, ˈmaʊntən, ˈdaɪnəsti, ˈherɪtɪdʒ/", vi: "Bản đồ, Khí hậu, Sông, Núi, Triều đại, Di sản." },
+          { stage: "3. Luyện tập (Khai thác tư liệu)", en: "Read the text and find the key dates.", ipa: "/riːd ðə tekst ænd faɪnd ðə kiː deɪts/", vi: "Đọc tư liệu và tìm các mốc thời gian chính." },
+          { stage: "4. Vận dụng (Tự hào quê hương)", en: "Why should we protect our historical sites?", ipa: "/waɪ ʃʊd wi prəˈtekt aʊər hɪˈstɔːrɪkl saɪts/", vi: "Tại sao chúng ta nên bảo vệ các di tích lịch sử?" }
         ]
       },
       {
         subject: "Giáo dục địa phương (Tiểu học)",
-        keywords: ["giáo dục địa phương", "địa phương", "lạng sơn", "quê hương", "lễ hội", "lồng tồng", "tràng định", "tày", "nùng"],
+        keywords: ["giáo dục địa phương", "địa phương", "lạng sơn", "quê hương", "lễ hội", "lồng tồng", "tày", "nùng"],
         grades: [1,2,3,4,5],
-        title: "Giáo dục địa phương Tiểu học – Trải nghiệm văn hóa Lạng Sơn",
+        title: "Giáo dục địa phương Tiểu học – Tỉnh Lạng Sơn (Lớp 1 – 5)",
         items: [
-          { stage: "Khởi động trò chuyện", en: "Where is your hometown? Let's share what you love most about Lang Son!", ipa: "/wer ɪz jɔːr ˈhoʊmtaʊn? lets ʃer wʌt ju lʌv moʊst əˈbaʊt lɑːŋ sɜːn/", vi: "Quê hương của em ở đâu? Hãy chia sẻ điều em yêu thích nhất ở Lạng Sơn nhé!" },
-          { stage: "Giới thiệu lễ hội & trang phục", en: "The Long Tong festival and traditional indigo clothes of Tay and Nung people.", ipa: "/ðə lɔːŋ tɔːŋ ˈfestɪvl ænd trəˈdɪʃənl ˈɪndɪɡoʊ kloʊðz əv taɪ ænd nʊŋ ˈpiːpl/", vi: "Lễ hội Lồng Tồng và trang phục áo chàm truyền thống của người Tày, người Nùng." },
-          { stage: "Hoạt động vẽ & giới thiệu", en: "Draw a picture of your village or school in Trang Dinh and show it to your friends.", ipa: "/drɔː ə ˈpɪktʃər əv jɔːr ˈvɪlɪdʒ ɔːr skuːl ɪn trɑːŋ dɪŋ ænd ʃoʊ ɪt tə jɔːr frendz/", vi: "Vẽ một bức tranh về bản làng hoặc ngôi trường của em ở Tràng Định và giới thiệu với các bạn." },
-          { stage: "Cam kết hành động", en: "Keep our school, rivers, and mountains clean and green.", ipa: "/kiːp aʊər skuːl, ˈrɪvərz, ænd ˈmaʊntənz kliːn ænd ɡriːn/", vi: "Giữ gìn trường học, sông suối và núi rừng quê hương luôn xanh – sạch – đẹp." }
+          { stage: "1. Khởi động (Trò chuyện)", en: "I love my hometown, Lang Son!", ipa: "/aɪ lʌv maɪ ˈhoʊmtaʊn, lɑːŋ sɜːn/", vi: "Em yêu quê hương Lạng Sơn của em!" },
+          { stage: "2. Khám phá (Văn hóa)", en: "Long Tong festival and indigo clothes of Tay, Nung people.", ipa: "/lɔːŋ tɔːŋ ˈfestɪvl ænd ˈɪndɪɡoʊ kloʊðz əv taɪ, nʊŋ ˈpiːpl/", vi: "Lễ hội Lồng Tồng và áo chàm của người Tày, người Nùng." },
+          { stage: "3. Thực hành (Vẽ & Kể)", en: "Draw your favorite place in Lang Son.", ipa: "/drɔː jɔːr ˈfeɪvərɪt pleɪs ɪn lɑːŋ sɜːn/", vi: "Vẽ một địa điểm em yêu thích ở Lạng Sơn." },
+          { stage: "4. Vận dụng (Hành động)", en: "Keep our school and hometown clean and green.", ipa: "/kiːp aʊər skuːl ænd ˈhoʊmtaʊn kliːn ænd ɡriːn/", vi: "Giữ cho trường học và quê hương luôn xanh – sạch – đẹp." }
         ]
       },
       {
         subject: "Giáo dục địa phương (THCS)",
-        keywords: ["giáo dục địa phương", "địa phương", "lạng sơn", "hát then", "đàn tính", "mẫu sơn", "ải chi lăng", "tràng định", "tày", "nùng", "di tích"],
+        keywords: ["giáo dục địa phương", "địa phương", "lạng sơn", "hát then", "đàn tính", "mẫu sơn", "ải chi lăng", "tày", "nùng", "di tích"],
         grades: [6,7,8,9],
-        title: "Giáo dục địa phương THCS – Di sản, Lịch sử & Kinh tế Lạng Sơn",
+        title: "Giáo dục địa phương THCS – Tỉnh Lạng Sơn (Lớp 6 – 9)",
         items: [
-          { stage: "Khởi động nhận diện di sản", en: "Listen to this folk melody. Can you recognize the sound of the Tinh lute?", ipa: "/ˈlɪsn tə ðɪs foʊk ˈmelədi. kæn ju ˈrekəɡnaɪz ðə saʊnd əv ðə tɪŋ luːt/", vi: "Hãy lắng nghe giai điệu dân ca này. Các em có nhận ra tiếng đàn Tính không?" },
-          { stage: "Kiến thức di sản & địa danh", en: "Then singing, Chi Lang Pass, Mau Son Mountain, and Ky Cung River.", ipa: "/ten ˈsɪŋɪŋ, tʃi lɑːŋ pæs, maʊ sɜːn ˈmaʊntən, ænd ki kʊŋ ˈrɪvər/", vi: "Hát Then, Ải Chi Lăng, Núi Mẫu Sơn và Sông Kỳ Cùng." },
-          { stage: "Thảo luận dự án nhóm", en: "In groups, design a mini poster to promote tourism and specialties of Lang Son.", ipa: "/ɪn ɡruːps, dɪˈzaɪn ə ˈmɪni ˈpoʊstər tə prəˈmoʊt ˈtʊrɪzəm ænd ˈspeʃəltiz əv lɑːŋ sɜːn/", vi: "Theo nhóm, hãy thiết kế một áp phích nhỏ quảng bá du lịch và đặc sản Lạng Sơn." },
-          { stage: "Vận dụng trách nhiệm", en: "Propose practical actions for students to protect local historical sites in Trang Dinh.", ipa: "/prəˈpoʊz ˈpræktɪkl ˈækʃnz fɔːr ˈstuːdnts tə prəˈtekt ˈloʊkl hɪˈstɔːrɪkl saɪts ɪn trɑːŋ dɪŋ/", vi: "Đề xuất những việc làm thiết thực để học sinh bảo vệ các di tích lịch sử tại Tràng Định." }
+          { stage: "1. Khởi động (Âm thanh / Hình ảnh)", en: "Listen! Can you hear the sound of the Tinh lute?", ipa: "/ˈlɪsn! kæn ju hɪr ðə saʊnd əv ðə tɪŋ luːt/", vi: "Lắng nghe nào! Các em có nghe thấy tiếng đàn Tính không?" },
+          { stage: "2. Khám phá (Di sản xứ Lạng)", en: "Then singing, Chi Lang Pass, Mau Son Mountain, Ky Cung River.", ipa: "/ten ˈsɪŋɪŋ, tʃi lɑːŋ pæs, maʊ sɜːn ˈmaʊntən, ki kʊŋ ˈrɪvər/", vi: "Hát Then, Ải Chi Lăng, Núi Mẫu Sơn, Sông Kỳ Cùng." },
+          { stage: "3. Luyện tập (Dự án nhỏ)", en: "Make a short poster about Lang Son specialties.", ipa: "/meɪk ə ʃɔːrt ˈpoʊstər əˈbaʊt lɑːŋ sɜːn ˈspeʃəltiz/", vi: "Làm một áp phích ngắn giới thiệu đặc sản Lạng Sơn." },
+          { stage: "4. Vận dụng (Trách nhiệm)", en: "How can students preserve local culture in Lang Son province?", ipa: "/haʊ kæn ˈstuːdnts prɪˈzɜːrv ˈloʊkl ˈkʌltʃər ɪn lɑːŋ sɜːn ˈprɑːvɪns/", vi: "Học sinh có thể làm gì để gìn giữ văn hóa tỉnh Lạng Sơn?" }
         ]
       },
       {
         subject: "Đạo đức / GDCD",
-        keywords: ["đạo đức", "giáo dục công dân", "gdcd", "trách nhiệm", "trung thực", "quyền", "bổn phận", "tình huống"],
+        keywords: ["đạo đức", "giáo dục công dân", "gdcd", "trách nhiệm", "trung thực", "quyền", "tình huống", "sắm vai"],
         grades: [1,2,3,4,5,6,7,8,9],
-        title: "Môn Đạo đức / Giáo dục công dân – Xử lý tình huống & Sắm vai",
+        title: "Đạo đức / Giáo dục công dân (Lớp 1 – 9)",
         items: [
-          { stage: "Khởi động nêu tình huống", en: "Watch this short situation and tell me: Is this behavior right or wrong?", ipa: "/wɑːtʃ ðɪs ʃɔːrt ˌsɪtʃuˈeɪʃn ænd tel miː: ɪz ðɪs bɪˈheɪvjər raɪt ɔːr rɔːŋ/", vi: "Xem tình huống ngắn này và cho cô/thầy biết: Hành vi này đúng hay sai?" },
-          { stage: "Phẩm chất & Giá trị sống", en: "Honesty, Respect, Responsibility, Compassion, and Self-discipline.", ipa: "/ˈɑːnəsti, rɪˈspekt, rɪˌspɑːnsəˈbɪləti, kəmˈpæʃn, ænd ˌself ˈdɪsəplɪn/", vi: "Trung thực, Tôn trọng, Trách nhiệm, Nhân ái và Tự giác." },
-          { stage: "Hoạt động sắm vai", en: "Role-play this scenario in groups of three and show how to solve the problem politely.", ipa: "/ˈroʊl pleɪ ðɪs səˈnærioʊ ɪn ɡruːps əv θriː ænd ʃoʊ haʊ tə sɑːlv ðə ˈprɑːbləm pəˈlaɪtli/", vi: "Đóng vai tình huống này theo nhóm 3 bạn và thể hiện cách giải quyết lịch sự." }
+          { stage: "1. Khởi động (Nêu tình huống)", en: "Look at this situation. Is it right or wrong?", ipa: "/lʊk æt ðɪs ˌsɪtʃuˈeɪʃn. ɪz ɪt raɪt ɔːr rɔːŋ/", vi: "Xem tình huống này. Việc làm đó đúng hay sai?" },
+          { stage: "2. Khám phá (Giá trị sống)", en: "Honesty, Respect, Kindness, Responsibility, Rules.", ipa: "/ˈɑːnəsti, rɪˈspekt, ˈkaɪndnəs, rɪˌspɑːnsəˈbɪləti, ruːlz/", vi: "Trung thực, Tôn trọng, Nhân ái, Trách nhiệm, Quy tắc." },
+          { stage: "3. Luyện tập (Sắm vai)", en: "Role-play this story in your group.", ipa: "/ˈroʊl pleɪ ðɪs ˈstɔːri ɪn jɔːr ɡruːp/", vi: "Đóng vai tình huống này trong nhóm của em." },
+          { stage: "4. Vận dụng (Cam kết)", en: "What will you do if your friend needs help?", ipa: "/wʌt wɪl ju duː ɪf jɔːr frend niːdz help/", vi: "Em sẽ làm gì nếu bạn của em cần giúp đỡ?" }
         ]
       },
       {
         subject: "Âm nhạc",
         keywords: ["âm nhạc", "hát", "nhịp", "giai điệu", "nhạc cụ"],
         grades: [1,2,3,4,5,6,7,8,9],
-        title: "Môn Âm nhạc – Luyện thanh, Hát & Gõ đệm",
+        title: "Môn Âm nhạc (Lớp 1 – 9)",
         items: [
-          { stage: "Khởi động luyện thanh", en: "Stand up straight, take a deep breath, and warm up your voices.", ipa: "/stænd ʌp streɪt, teɪk ə diːp breθ, ænd wɔːrm ʌp jɔːr ˈvɔɪsɪz/", vi: "Đứng thẳng lưng, hít một hơi thật sâu và khởi động giọng hát nào." },
-          { stage: "Thực hành hát & gõ nhịp", en: "Sing along with the melody and clap your hands to the rhythm.", ipa: "/sɪŋ əˈlɔːŋ wɪð ðə ˈmelədi ænd klæp jɔːr hændz tə ðə ˈrɪðəm/", vi: "Hát theo giai điệu và vỗ tay theo tiết tấu." },
-          { stage: "Biểu diễn nhóm", en: "Each group will perform the song with simple body movements.", ipa: "/iːtʃ ɡruːp wɪl pərˈfɔːrm ðə sɔːŋ wɪð ˈsɪmpl ˈbɑːdi ˈmuːvmənts/", vi: "Mỗi nhóm sẽ biểu diễn bài hát kết hợp vận động phụ họa đơn giản." }
+          { stage: "1. Khởi động (Luyện thanh)", en: "Stand up straight and take a deep breath.", ipa: "/stænd ʌp streɪt ænd teɪk ə diːp breθ/", vi: "Đứng thẳng lưng và hít một hơi thật sâu." },
+          { stage: "2. Khám phá (Học hát)", en: "Listen to the melody and sing after me.", ipa: "/ˈlɪsn tə ðə ˈmelədi ænd sɪŋ ˈæftər miː/", vi: "Nghe giai điệu và hát theo cô/thầy nhé." },
+          { stage: "3. Luyện tập (Gõ đệm)", en: "Clap your hands to the beat! One, two, three!", ipa: "/klæp jɔːr hændz tə ðə biːt! wʌn, tuː, θriː/", vi: "Vỗ tay theo nhịp nào! Một, hai, ba!" },
+          { stage: "4. Vận dụng (Biểu diễn)", en: "Now, perform the song in your group.", ipa: "/naʊ, pərˈfɔːrm ðə sɔːŋ ɪn jɔːr ɡruːp/", vi: "Bây giờ hãy biểu diễn bài hát theo nhóm nhé." }
         ]
       },
       {
         subject: "Mỹ thuật",
         keywords: ["mỹ thuật", "vẽ", "màu sắc", "bức tranh", "tạo hình"],
         grades: [1,2,3,4,5,6,7,8,9],
-        title: "Môn Mỹ thuật – Sáng tạo & Trưng bày sản phẩm",
+        title: "Môn Mỹ thuật (Lớp 1 – 9)",
         items: [
-          { stage: "Khám phá màu sắc", en: "Mix primary colors to create secondary colors on your palette.", ipa: "/mɪks ˈpraɪmeri ˈkʌlərz tə kriˈeɪt ˈsekənderi ˈkʌlərz ɑːn jɔːr ˈpælət/", vi: "Pha các màu cơ bản để tạo thành màu thứ cấp trên bảng pha màu." },
-          { stage: "Thực hành sáng tạo", en: "Draw and color a picture about your favorite seasonal festival.", ipa: "/drɔː ænd ˈkʌlər ə ˈpɪktʃər əˈbaʊt jɔːr ˈfeɪvərɪt ˈsiːzənl ˈfestɪvl/", vi: "Vẽ và tô màu một bức tranh về lễ hội yêu thích của em." },
-          { stage: "Triển lãm & Nhận xét", en: "Display your artwork on the board and share what you like about your friend's painting.", ipa: "/dɪˈspleɪ jɔːr ˈɑːrtwɜːrk ɑːn ðə bɔːrd ænd ʃer wʌt ju laɪk əˈbaʊt jɔːr frendz ˈpeɪntɪŋ/", vi: "Trưng bày sản phẩm lên bảng và chia sẻ điều em thích ở bức tranh của bạn." }
+          { stage: "1. Quan sát & Khám phá", en: "What colors and shapes do you see?", ipa: "/wʌt ˈkʌlərz ænd ʃeɪps duː ju siː/", vi: "Em thấy những màu sắc và hình khối nào?" },
+          { stage: "2. Hướng dẫn tạo hình", en: "Draw the outline first, then color it.", ipa: "/drɔː ði ˈaʊtlaɪn fɜːrst, ðen ˈkʌlər ɪt/", vi: "Vẽ nét phác thảo trước, sau đó tô màu." },
+          { stage: "3. Thực hành sáng tạo", en: "Be creative and use bright colors!", ipa: "/bi kriˈeɪtɪv ænd juːz braɪt ˈkʌlərz/", vi: "Hãy sáng tạo và dùng những màu sắc tươi sáng nhé!" },
+          { stage: "4. Trưng bày & Chia sẻ", en: "Hold up your picture! What do you like about it?", ipa: "/hoʊld ʌp jɔːr ˈpɪktʃər! wʌt duː ju laɪk əˈbaʊt ɪt/", vi: "Giơ bức tranh lên nào! Em thích điểm nào ở bức tranh này?" }
         ]
       },
       {
         subject: "Giáo dục thể chất",
         keywords: ["giáo dục thể chất", "thể dục", "khởi động", "xếp hàng", "chạy", "nhảy"],
         grades: [1,2,3,4,5,6,7,8,9],
-        title: "Môn Giáo dục thể chất – Khởi động, Đội hình & Trò chơi vận động",
+        title: "Môn Giáo dục thể chất (Lớp 1 – 9)",
         items: [
-          { stage: "Tập hợp & Khởi động", en: "Line up in four rows! Rotate your neck, shoulders, wrists, and ankles.", ipa: "/laɪn ʌp ɪn fɔːr roʊz! ˈroʊteɪt jɔːr nek, ˈʃoʊldərz, rɪsts, ænd ˈæŋklz/", vi: "Xếp thành 4 hàng dọc! Xoay khớp cổ, vai, cổ tay và cổ chân." },
-          { stage: "Luyện tập động tác", en: "Watch my demonstration first, then practice in pairs.", ipa: "/wɑːtʃ maɪ ˌdemənˈstreɪʃn fɜːrst, ðen ˈpræktɪs ɪn perz/", vi: "Quan sát thầy/cô làm mẫu trước, sau đó luyện tập theo cặp." },
-          { stage: "Thả lỏng hồi tĩnh", en: "Jog slowly, shake your arms and legs, and breathe out deeply.", ipa: "/dʒɑːɡ ˈsloʊli, ʃeɪk jɔːr ɑːrmz ænd leɡz, ænd briːð aʊt ˈdiːpli/", vi: "Chạy chậm thả lỏng, rũ tay chân và thở ra thật sâu." }
+          { stage: "1. Tập hợp & Khởi động", en: "Line up in four rows! Warm up your body.", ipa: "/laɪn ʌp ɪn fɔːr roʊz! wɔːrm ʌp jɔːr ˈbɑːdi/", vi: "Xếp thành 4 hàng dọc! Khởi động cơ thể nào." },
+          { stage: "2. Làm mẫu động tác", en: "Watch me first, then copy the movement.", ipa: "/wɑːtʃ miː fɜːrst, ðen ˈkɑːpi ðə ˈmuːvmənt/", vi: "Nhìn cô/thầy làm mẫu trước, sau đó làm theo động tác." },
+          { stage: "3. Luyện tập & Trò chơi", en: "Ready, set, go! Run fast and stay safe.", ipa: "/ˈredi, set, ɡoʊ! rʌn fæst ænd steɪ seɪf/", vi: "Chuẩn bị, sẵn sàng, chạy! Chạy nhanh và giữ an toàn nhé." },
+          { stage: "4. Hồi tĩnh thả lỏng", en: "Breathe in, breathe out, and shake your legs.", ipa: "/briːð ɪn, briːð aʊt, ænd ʃeɪk jɔːr leɡz/", vi: "Hít vào, thở ra và thả lỏng chân nào." }
         ]
       },
       {
         subject: "Hoạt động trải nghiệm",
         keywords: ["hoạt động trải nghiệm", "hướng nghiệp", "kỹ năng", "câu lạc bộ", "ngoại khóa"],
         grades: [1,2,3,4,5,6,7,8,9],
-        title: "Hoạt động trải nghiệm, hướng nghiệp – Kỹ năng & Thực hành",
+        title: "Hoạt động trải nghiệm, hướng nghiệp (Lớp 1 – 9)",
         items: [
-          { stage: "Chia sẻ trải nghiệm", en: "Share your feelings and teamwork experience after today's activity.", ipa: "/ʃer jɔːr ˈfiːlɪŋz ænd ˈtiːmwɜːrk ɪkˈspɪriəns ˈæftər təˈdeɪz ækˈtɪvəti/", vi: "Chia sẻ cảm xúc và kinh nghiệm làm việc nhóm sau hoạt động hôm nay." },
-          { stage: "Rèn luyện kỹ năng & Hướng nghiệp", en: "Develop communication skills, time management, and explore future careers.", ipa: "/dɪˈveləp kəˌmjuːnɪˈkeɪʃn skɪlz, taɪm ˈmænɪdʒmənt, ænd ɪkˈsplɔːr ˈfjuːtʃər kəˈrɪrz/", vi: "Rèn luyện kỹ năng giao tiếp, quản lý thời gian và khám phá nghề nghiệp tương lai." }
+          { stage: "1. Khởi động (Kết nối)", en: "How do you feel today? Let's share!", ipa: "/haʊ duː ju fiːl təˈdeɪ? lets ʃer/", vi: "Hôm nay em cảm thấy thế nào? Hãy chia sẻ nhé!" },
+          { stage: "2. Khám phá kỹ năng", en: "Teamwork, Communication, Time management, Future career.", ipa: "/ˈtiːmwɜːrk, kəˌmjuːnɪˈkeɪʃn, taɪm ˈmænɪdʒmənt, ˈfjuːtʃər kəˈrɪr/", vi: "Làm việc nhóm, Giao tiếp, Quản lý thời gian, Nghề nghiệp tương lai." },
+          { stage: "3. Thực hành trải nghiệm", en: "Plan your group activity and assign tasks.", ipa: "/plæn jɔːr ɡruːp ækˈtɪvəti ænd əˈsaɪn tæsks/", vi: "Lập kế hoạch cho hoạt động nhóm và phân công nhiệm vụ." },
+          { stage: "4. Đánh giá & Vận dụng", en: "What new skill did you learn today?", ipa: "/wʌt nuː skɪl dɪd ju lɜːrn təˈdeɪ/", vi: "Hôm nay em đã học được kỹ năng mới nào?" }
         ]
       }
     ];
 
-    // BỘ PHÁT ÂM CHUẨN TIẾNG ANH CHO CẢ MÁY TÍNH VÀ ĐIỆN THOẠI
+    // BỘ PHÁT ÂM CHUẨN TIẾNG ANH CHO MÁY TÍNH & ĐIỆN THOẠI
     let availableVoices = [];
     function loadVoices() {
       availableVoices = window.speechSynthesis.getVoices();
@@ -302,11 +353,13 @@
       window.speechSynthesis.onvoiceschanged = loadVoices;
     }
 
-    function speak(text, lang = 'en-US') {
+    function speakFromBtn(btn) {
+      const text = btn.getAttribute('data-text');
+      const lang = btn.getAttribute('data-lang') || 'en-US';
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = lang;
-      utterance.rate = 0.9;
+      utterance.rate = 0.88;
 
       if (availableVoices.length === 0) {
         availableVoices = window.speechSynthesis.getVoices();
@@ -324,6 +377,10 @@
       }
 
       window.speechSynthesis.speak(utterance);
+    }
+
+    function escapeAttr(str) {
+      return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
 
     function initGradeBar() {
@@ -363,7 +420,7 @@
         subjectBar.appendChild(chip);
       });
 
-      const subjects = CURRICULUM_2018[currentGrade] || [];
+      const subjects = CURRICULUM[currentGrade] || [];
       subjects.forEach(subj => {
         const chip = document.createElement('button');
         chip.className = 'subj-chip';
@@ -393,7 +450,7 @@
       setTimeout(() => {
         const replyHtml = generateBotReply(rawText);
         appendMessage(replyHtml, 'bot', true);
-      }, 200);
+      }, 180);
     }
 
     function generateBotReply(query) {
@@ -422,8 +479,8 @@
                 <div class="vi-text">${item.vi}</div>
               </div>
               <div class="audio-btns">
-                <button class="speak-btn" onclick="speak('${item.en.replace(/'/g, "\\'")}', 'en-US')" title="Giọng Anh - Mỹ">🔊 US</button>
-                <button class="speak-btn" onclick="speak('${item.en.replace(/'/g, "\\'")}', 'en-GB')" title="Giọng Anh - Anh">🔊 UK</button>
+                <button class="speak-btn" data-text="${escapeAttr(item.en)}" data-lang="en-US" onclick="speakFromBtn(this)" title="Giọng Anh - Mỹ">🔊 US</button>
+                <button class="speak-btn" data-text="${escapeAttr(item.en)}" data-lang="en-GB" onclick="speakFromBtn(this)" title="Giọng Anh - Anh">🔊 UK</button>
               </div>
             </div>
           </div>

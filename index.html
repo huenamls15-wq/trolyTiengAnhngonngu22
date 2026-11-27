@@ -1,0 +1,405 @@
+HTML
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trợ giảng Song ngữ GDPT 2018 (Lớp 1 - Lớp 9)</title>
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-dark: #1557b0;
+      --accent: #0d9488;
+      --bg: #eef2f6;
+      --chat-bg: #ffffff;
+      --bot-msg: #f1f5f9;
+      --user-msg: #1a73e8;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #cbd5e1;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { background: var(--bg); color: var(--text); display: flex; justify-content: center; height: 100vh; }
+    .app { width: 100%; max-width: 920px; background: var(--chat-bg); display: flex; flex-direction: column; height: 100vh; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    
+    /* Header */
+    .header { background: linear-gradient(135deg, #1a73e8, #0f4c81); color: #fff; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .header h1 { font-size: 1.15rem; font-weight: 700; }
+    .header p { font-size: 0.82rem; opacity: 0.9; margin-top: 2px; }
+    .badge { background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 14px; font-size: 0.78rem; font-weight: 600; white-space: nowrap; }
+
+    /* Control Bar: Grade & Subject Selectors */
+    .control-panel { background: #f8fafc; border-bottom: 1px solid var(--border); padding: 10px 16px; display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
+    .grade-row { display: flex; align-items: center; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
+    .grade-label { font-size: 0.82rem; font-weight: 700; color: var(--muted); white-space: nowrap; margin-right: 4px; }
+    .grade-btn { background: #fff; border: 1px solid var(--border); color: var(--text); padding: 5px 11px; border-radius: 8px; font-size: 0.82rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: 0.15s; }
+    .grade-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .grade-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    .subject-row { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
+    .subj-chip { background: #fff; border: 1px solid #93c5fd; color: var(--primary-dark); padding: 6px 12px; border-radius: 16px; font-size: 0.82rem; font-weight: 500; cursor: pointer; white-space: nowrap; transition: 0.15s; }
+    .subj-chip:hover { background: #dbeafe; }
+    .subj-chip.situational { border-color: #5eead4; color: #0f766e; background: #f0fdfa; }
+    .subj-chip.situational:hover { background: #ccfbf1; }
+
+    /* Chat Area */
+    .messages { flex: 1; padding: 18px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
+    .msg { max-width: 88%; padding: 13px 16px; border-radius: 14px; line-height: 1.5; font-size: 0.94rem; animation: fadeIn 0.2s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    .msg.bot { background: var(--bot-msg); align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid #e2e8f0; }
+    .msg.user { background: var(--user-msg); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+    
+    /* Vocabulary & Phrase Cards inside Bot Msg */
+    .topic-header { font-weight: 700; color: #0f172a; margin-bottom: 8px; font-size: 0.98rem; display: flex; align-items: center; gap: 6px; }
+    .card { background: #fff; border: 1px solid #cbd5e1; border-radius: 10px; padding: 10px 12px; margin-top: 8px; }
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+    .en-text { font-weight: 700; color: var(--primary-dark); font-size: 0.98rem; }
+    .ipa { color: #dc2626; font-family: monospace; font-size: 0.85rem; margin: 3px 0; }
+    .vi-text { color: #334155; font-size: 0.9rem; }
+    .audio-btns { display: flex; gap: 5px; flex-shrink: 0; }
+    .speak-btn { background: #eff6ff; color: var(--primary); border: 1px solid #bfdbfe; border-radius: 6px; padding: 5px 8px; cursor: pointer; font-size: 0.76rem; font-weight: 600; }
+    .speak-btn:hover { background: #dbeafe; }
+
+    /* Input Area */
+    .input-box { padding: 12px 16px; border-top: 1px solid var(--border); display: flex; gap: 10px; background: #fff; }
+    .input-box input { flex: 1; padding: 11px 15px; border: 1px solid var(--border); border-radius: 24px; outline: none; font-size: 0.95rem; }
+    .input-box input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26,115,232,0.12); }
+    .send-btn { background: var(--primary); color: #fff; border: none; border-radius: 24px; padding: 0 22px; font-weight: 600; cursor: pointer; transition: 0.15s; }
+    .send-btn:hover { background: var(--primary-dark); }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="header">
+      <div>
+        <h1>🤖 Trợ giảng Song ngữ GDPT 2018</h1>
+        <p>Hỗ trợ giáo viên không chuyên Tiếng Anh giảng dạy Lớp 1 – Lớp 9</p>
+      </div>
+      <span class="badge" id="currentGradeBadge">Đang chọn: Lớp 1</span>
+    </div>
+
+    <div class="control-panel">
+      <div class="grade-row" id="gradeBar">
+        <span class="grade-label">Chọn khối lớp:</span>
+      </div>
+      <div class="subject-row" id="subjectBar"></div>
+    </div>
+
+    <div class="messages" id="messages">
+      <div class="msg bot">
+        Xin chào thầy/cô! Thầy/cô hãy chọn <b>Khối lớp (Lớp 1 – Lớp 9)</b> ở thanh phía trên, hệ thống sẽ hiển thị đầy đủ các môn học theo chương trình GDPT 2018 (bao gồm cả môn <b>Giáo dục địa phương</b> ở cả Tiểu học và THCS).<br><br>
+        Bấm trực tiếp vào tên môn học hoặc nhập từ khóa bên dưới (ví dụ: <i>"giáo dục địa phương", "lạng sơn", "hát then", "phân số", "tin học", "ổn định lớp"</i>) để lấy mẫu câu tiếng Anh, phiên âm IPA và nghe phát âm chuẩn US/UK.
+      </div>
+    </div>
+
+    <div class="input-box">
+      <input type="text" id="userInput" placeholder="Nhập tên môn học, chủ đề địa phương hoặc câu lệnh trên lớp..." onkeypress="if(event.key==='Enter') sendMessage()" />
+      <button class="send-btn" onclick="sendMessage()">Gửi</button>
+    </div>
+  </div>
+
+  <script>
+    let currentGrade = 1;
+
+    // CẤU TRÚC MÔN HỌC CHUẨN CHƯƠNG TRÌNH GDPT 2018 TỪ LỚP 1 ĐẾN LỚP 9
+    const CURRICULUM_2018 = {
+      1: ["Tiếng Việt", "Toán", "Đạo đức", "Tự nhiên và Xã hội", "Giáo dục thể chất", "Âm nhạc", "Mỹ thuật", "Hoạt động trải nghiệm", "Giáo dục địa phương"],
+      2: ["Tiếng Việt", "Toán", "Đạo đức", "Tự nhiên và Xã hội", "Giáo dục thể chất", "Âm nhạc", "Mỹ thuật", "Hoạt động trải nghiệm", "Giáo dục địa phương"],
+      3: ["Tiếng Việt", "Toán", "Đạo đức", "Tự nhiên và Xã hội", "Tin học và Công nghệ", "Giáo dục thể chất", "Âm nhạc", "Mỹ thuật", "Hoạt động trải nghiệm", "Giáo dục địa phương"],
+      4: ["Tiếng Việt", "Toán", "Đạo đức", "Khoa học", "Lịch sử và Địa lí", "Tin học và Công nghệ", "Giáo dục thể chất", "Âm nhạc", "Mỹ thuật", "Hoạt động trải nghiệm", "Giáo dục địa phương"],
+      5: ["Tiếng Việt", "Toán", "Đạo đức", "Khoa học", "Lịch sử và Địa lí", "Tin học và Công nghệ", "Giáo dục thể chất", "Âm nhạc", "Mỹ thuật", "Hoạt động trải nghiệm", "Giáo dục địa phương"],
+      6: ["Ngữ văn", "Toán", "Giáo dục công dân", "Khoa học tự nhiên", "Lịch sử và Địa lí", "Tin học", "Công nghệ", "Giáo dục thể chất", "Âm nhạc", "Mỹ thuật", "Hoạt động trải nghiệm, hướng nghiệp", "Giáo dục địa phương"],
+      7: ["Ngữ văn", "Toán", "Giáo dục công dân", "Khoa học tự nhiên", "Lịch sử và Địa lí", "Tin học", "Công nghệ", "Giáo dục thể chất", "Âm nhạc", "Mỹ thuật", "Hoạt động trải nghiệm, hướng nghiệp", "Giáo dục địa phương"],
+      8: ["Ngữ văn", "Toán", "Giáo dục công dân", "Khoa học tự nhiên", "Lịch sử và Địa lí", "Tin học", "Công nghệ", "Giáo dục thể chất", "Âm nhạc", "Mỹ thuật", "Hoạt động trải nghiệm, hướng nghiệp", "Giáo dục địa phương"],
+      9: ["Ngữ văn", "Toán", "Giáo dục công dân", "Khoa học tự nhiên", "Lịch sử và Địa lí", "Tin học", "Công nghệ", "Giáo dục thể chất", "Âm nhạc", "Mỹ thuật", "Hoạt động trải nghiệm, hướng nghiệp", "Giáo dục địa phương"]
+    };
+
+    // KHO DỮ LIỆU TỪ VỰNG, PHIÊN ÂM IPA & CÂU LỆNH SƯ PHẠM
+    const KNOWLEDGE_BASE = [
+      {
+        subject: "Ổn định lớp",
+        keywords: ["ổn định", "chào", "bắt đầu", "trật tự", "mở sách", "lớp học", "câu lệnh"],
+        grades: [1,2,3,4,5,6,7,8,9],
+        title: "Câu lệnh quản lý & ổn định lớp học (Classroom English)",
+        items: [
+          { en: "Good morning everyone! Please take your seats.", ipa: "/ɡʊd ˈmɔːrnɪŋ ˈevriwʌn! pliːz teɪk jɔːr siːts/", vi: "Chào buổi sáng cả lớp! Mời các em ngồi vào chỗ." },
+          { en: "Please be quiet and pay attention to the board.", ipa: "/pliːz bi ˈkwaɪət ænd peɪ əˈtenʃn tə ðə bɔːrd/", vi: "Các em giữ trật tự và chú ý lên bảng nào." },
+          { en: "Open your textbooks to page ten.", ipa: "/ˈoʊpən jɔːr ˈtekstbʊks tə peɪdʒ ten/", vi: "Các em mở sách giáo khoa trang 10." },
+          { en: "Work in pairs / Work in groups of four.", ipa: "/wɜːrk ɪn perz / wɜːrk ɪn ɡruːps əv fɔːr/", vi: "Làm việc theo cặp / Làm việc theo nhóm 4 người." }
+        ]
+      },
+      {
+        subject: "Khen ngợi",
+        keywords: ["khen", "động viên", "giỏi", "tốt", "vỗ tay", "đúng", "nhận xét"],
+        grades: [1,2,3,4,5,6,7,8,9],
+        title: "Câu lệnh khen ngợi & khích lệ học sinh",
+        items: [
+          { en: "Well done! That is the correct answer.", ipa: "/wel dʌn! ðæt ɪz ðə kəˈrekt ˈænsər/", vi: "Làm tốt lắm! Đó là câu trả lời chính xác." },
+          { en: "Let's give her/him a big hand!", ipa: "/lets ɡɪv hɜːr/hɪm ə bɪɡ hænd/", vi: "Cả lớp hãy dành cho bạn một tràng pháo tay thật lớn!" },
+          { en: "Good try! Think a little bit more.", ipa: "/ɡʊd traɪ! θɪŋk ə ˈlɪtl bɪt mɔːr/", vi: "Cố gắng tốt lắm! Em hãy suy nghĩ thêm một chút nữa nhé." }
+        ]
+      },
+      {
+        subject: "Giáo dục địa phương (Tiểu học)",
+        keywords: ["giáo dục địa phương", "địa phương", "lạng sơn", "quê hương", "lễ hội", "lồng tồng", "tràng định", "tày", "nùng"],
+        grades: [1,2,3,4,5],
+        title: "Môn Giáo dục địa phương cấp Tiểu học – Quê hương Lạng Sơn",
+        items: [
+          { en: "I love my hometown Lang Son.", ipa: "/aɪ lʌv maɪ ˈhoʊmtaʊn lɑːŋ sɜːn/", vi: "Em yêu quê hương Lạng Sơn của em." },
+          { en: "Look at the picture of our beautiful mountains and rice fields.", ipa: "/lʊk æt ðə ˈpɪktʃər əv aʊər ˈbjuːtɪfl ˈmaʊntənz ænd raɪs fiːldz/", vi: "Các em hãy nhìn bức tranh về những ngọn núi và cánh đồng lúa xinh đẹp của quê hương ta." },
+          { en: "The Long Tong festival is a joyful spring festival in our village.", ipa: "/ðə lɔːŋ tɔːŋ ˈfestɪvl ɪz ə ˈdʒɔɪfl sprɪŋ ˈfestɪvl ɪn aʊər ˈvɪlɪdʒ/", vi: "Lễ hội Lồng Tồng là lễ hội mùa xuân vui tươi ở bản làng chúng ta." },
+          { en: "Keep our school and village clean and green.", ipa: "/kiːp aʊər skuːl ænd ˈvɪlɪdʒ kliːn ænd ɡriːn/", vi: "Hãy giữ cho trường học và bản làng của chúng ta sạch đẹp, xanh tươi." }
+        ]
+      },
+      {
+        subject: "Giáo dục địa phương (THCS)",
+        keywords: ["giáo dục địa phương", "địa phương", "lạng sơn", "hát then", "đàn tính", "mẫu sơn", "ải chi lăng", "tràng định", "tày", "nùng", "di tích"],
+        grades: [6,7,8,9],
+        title: "Môn Giáo dục địa phương cấp THCS – Tỉnh Lạng Sơn (Local Education)",
+        items: [
+          { en: "Today, we will learn about the cultural heritage and history of Lang Son province.", ipa: "/təˈdeɪ, wi wɪl lɜːrn əˈbaʊt ðə ˈkʌltʃərəl ˈherɪtɪdʒ ænd ˈhɪstri əv lɑːŋ sɜːn ˈprɑːvɪns/", vi: "Hôm nay, chúng ta sẽ tìm hiểu về di sản văn hóa và lịch sử tỉnh Lạng Sơn." },
+          { en: "Then singing and Tinh lute are traditional folk arts of the Tay and Nung ethnic groups.", ipa: "/ten ˈsɪŋɪŋ ænd tɪŋ luːt ɑːr trəˈdɪʃənl foʊk ɑːrts əv ðə taɪ ænd nʊŋ ˈeθnɪk ɡruːps/", vi: "Hát Then và đàn Tính là loại hình nghệ thuật dân gian truyền thống của dân tộc Tày và Nùng." },
+          { en: "Chi Lang Pass is a famous historical site symbolizing our ancestors' patriotism.", ipa: "/tʃi lɑːŋ pæs ɪz ə ˈfeɪməs hɪˈstɔːrɪkl saɪt ˈsɪmbəlaɪzɪŋ aʊər ˈænsestərz ˈpeɪtriətɪzəm/", vi: "Ải Chi Lăng là di tích lịch sử nổi tiếng biểu trưng cho lòng yêu nước của cha ông ta." },
+          { en: "Mau Son Mountain is well-known for its cool climate and unique local specialties.", ipa: "/maʊ sɜːn ˈmaʊntən ɪz ˌwel ˈnoʊn fɔːr ɪts kuːl ˈklaɪmət ænd juˈniːk ˈloʊkl ˈspeʃəltiz/", vi: "Núi Mẫu Sơn nổi tiếng với khí hậu mát mẻ và các đặc sản địa phương độc đáo." },
+          { en: "Let's discuss how students can preserve local traditions and protect the environment in Trang Dinh.", ipa: "/lets dɪˈskʌs haʊ ˈstuːdnts kæn prɪˈzɜːrv ˈloʊkl trəˈdɪʃnz ænd prəˈtekt ði ɪnˈvaɪrənmənt ɪn trɑːŋ dɪŋ/", vi: "Hãy cùng thảo luận cách học sinh có thể gìn giữ truyền thống địa phương và bảo vệ môi trường ở Tràng Định." }
+        ]
+      },
+      {
+        subject: "Toán",
+        keywords: ["toán", "math", "cộng", "trừ", "nhân", "chia", "phân số", "hình học", "chu vi", "diện tích", "phương trình"],
+        grades: [1,2,3,4,5,6,7,8,9],
+        title: "Môn Toán (Mathematics)",
+        items: [
+          { en: "Addition / Subtraction / Multiplication / Division", ipa: "/əˈdɪʃn / səbˈtrækʃn / ˌmʌltɪplɪˈkeɪʃn / dɪˈvɪʒn/", vi: "Phép cộng / Phép trừ / Phép nhân / Phép chia" },
+          { en: "Numerator and Denominator (Fraction)", ipa: "/ˈnuːməreɪtər ænd dɪˈnɑːmɪneɪtər (ˈfrækʃn)/", vi: "Tử số và Mẫu số (Phân số)" },
+          { en: "Calculate the perimeter and area of this rectangle.", ipa: "/ˈkælkjuleɪt ðə pəˈrɪmɪtər ænd ˈeriə əv ðɪs ˈrektæŋɡl/", vi: "Hãy tính chu vi và diện tích của hình chữ nhật này." },
+          { en: "Solve the equation for x.", ipa: "/sɑːlv ði ɪˈkweɪʒn fɔːr eks/", vi: "Giải phương trình tìm x." }
+        ]
+      },
+      {
+        subject: "Tiếng Việt / Ngữ văn",
+        keywords: ["tiếng việt", "ngữ văn", "đọc", "viết", "văn", "thơ", "câu", "từ", "đoạn văn"],
+        grades: [1,2,3,4,5,6,7,8,9],
+        title: "Môn Tiếng Việt / Ngữ văn (Literature & Language)",
+        items: [
+          { en: "Read the passage aloud with clear pronunciation.", ipa: "/riːd ðə ˈpæsɪdʒ əˈlaʊd wɪð klɪr prəˌnʌnsiˈeɪʃn/", vi: "Đọc to đoạn văn với phát âm rõ ràng." },
+          { en: "Find the main idea of this paragraph.", ipa: "/faɪnd ðə meɪn aɪˈdiːə əv ðɪs ˈpærəɡræf/", vi: "Tìm ý chính của đoạn văn này." },
+          { en: "Write a short paragraph describing your hometown.", ipa: "/raɪt ə ʃɔːrt ˈpærəɡræf dɪˈskraɪbɪŋ jɔːr ˈhoʊmtaʊn/", vi: "Viết một đoạn văn ngắn miêu tả quê hương của em." }
+        ]
+      },
+      {
+        subject: "Tự nhiên & Khoa học",
+        keywords: ["tự nhiên và xã hội", "khoa học", "khoa học tự nhiên", "sinh học", "vật lí", "hóa học", "thực vật", "nước", "quang hợp"],
+        grades: [1,2,3,4,5,6,7,8,9],
+        title: "Tự nhiên & Xã hội / Khoa học / Khoa học tự nhiên",
+        items: [
+          { en: "Photosynthesis is how plants make food from sunlight.", ipa: "/ˌfoʊtoʊˈsɪnθəsɪs ɪz haʊ plænts meɪk fuːd frəm ˈsʌnlaɪt/", vi: "Quang hợp là cách thực vật tạo ra chất dinh dưỡng từ ánh sáng mặt trời." },
+          { en: "Solid, Liquid, and Gas are three states of matter.", ipa: "/ˈsɑːlɪd, ˈlɪkwɪd, ænd ɡæs ɑːr θriː steɪts əv ˈmætər/", vi: "Rắn, Lỏng và Khí là ba thể của vật chất." },
+          { en: "Observe the experiment carefully and record the results.", ipa: "/əbˈzɜːrv ði ɪkˈsperɪmənt ˈkerfəli ænd rɪˈkɔːrd ðə rɪˈzʌlts/", vi: "Quan sát thí nghiệm cẩn thận và ghi lại kết quả." }
+        ]
+      },
+      {
+        subject: "Tin học & Công nghệ",
+        keywords: ["tin học", "công nghệ", "tin học và công nghệ", "máy tính", "bàn phím", "chuột", "lập trình", "scratch", "phần mềm"],
+        grades: [3,4,5,6,7,8,9],
+        title: "Môn Tin học & Công nghệ (Informatics & Technology)",
+        items: [
+          { en: "Turn on the computer and click the left mouse button.", ipa: "/tɜːrn ɑːn ðə kəmˈpjuːtər ænd klɪk ðə left maʊs ˈbʌtn/", vi: "Bật máy tính và nháy nút chuột trái." },
+          { en: "Keyboard, Monitor, Central Processing Unit (CPU)", ipa: "/ˈkiːbɔːrd, ˈmɑːnɪtər, ˈsentrəl ˈprɑːsesɪŋ ˈjuːnɪt/", vi: "Bàn phím, Màn hình, Bộ xử lý trung tâm (CPU)" },
+          { en: "Algorithm and Loop structure in programming.", ipa: "/ˈælɡərɪðəm ænd luːp ˈstrʌktʃər ɪn ˈproʊɡræmɪŋ/", vi: "Thuật toán và cấu trúc lặp trong lập trình." },
+          { en: "Use safe and polite behavior on the Internet.", ipa: "/juːz seɪf ænd pəˈlaɪt bɪˈheɪvjər ɑːn ði ˈɪntərnet/", vi: "Ứng xử an toàn và lịch sự trên Internet." }
+        ]
+      },
+      {
+        subject: "Lịch sử và Địa lí",
+        keywords: ["lịch sử", "địa lí", "lịch sử và địa lí", "bản đồ", "di sản", "văn hóa", "khí hậu"],
+        grades: [4,5,6,7,8,9],
+        title: "Môn Lịch sử và Địa lí (History & Geography)",
+        items: [
+          { en: "Look at the map and locate the Northern mountainous region.", ipa: "/lʊk æt ðə mæp ænd ˈloʊkeɪt ðə ˈnɔːrðərn ˈmaʊntənəs ˈriːdʒən/", vi: "Nhìn vào bản đồ và xác định vị trí vùng trung du và miền núi phía Bắc." },
+          { en: "Preserve cultural heritage and historical traditions.", ipa: "/prɪˈzɜːrv ˈkʌltʃərəl ˈherɪtɪdʒ ænd hɪˈstɔːrɪkl trəˈdɪʃnz/", vi: "Gìn giữ di sản văn hóa và truyền thống lịch sử." },
+          { en: "Climate, terrain, and natural resources.", ipa: "/ˈklaɪmət, təˈreɪn, ænd ˈnætʃrəl ˈriːsɔːrsɪz/", vi: "Khí hậu, địa hình và tài nguyên thiên nhiên." }
+        ]
+      },
+      {
+        subject: "Đạo đức / GDCD",
+        keywords: ["đạo đức", "giáo dục công dân", "gdcd", "trách nhiệm", "trung thực", "quyền", "bổn phận"],
+        grades: [1,2,3,4,5,6,7,8,9],
+        title: "Môn Đạo đức / Giáo dục công dân (Civic Education & Ethics)",
+        items: [
+          { en: "Respect teachers, parents, and help your friends.", ipa: "/rɪˈspekt ˈtiːtʃərz, ˈperənts, ænd help jɔːr frendz/", vi: "Kính trọng thầy cô, cha mẹ và giúp đỡ bạn bè." },
+          { en: "Honesty, responsibility, and self-discipline.", ipa: "/ˈɑːnəsti, rɪˌspɑːnsəˈbɪləti, ænd ˌself ˈdɪsəplɪn/", vi: "Tính trung thực, tinh thần trách nhiệm và tính tự giác." },
+          { en: "Obey traffic rules and school regulations.", ipa: "/əˈbeɪ ˈtræfɪk ruːlz ænd skuːl ˌreɡjuˈleɪʃnz/", vi: "Chấp hành luật giao thông và nội quy nhà trường." }
+        ]
+      },
+      {
+        subject: "Âm nhạc",
+        keywords: ["âm nhạc", "hát", "nhịp", "giai điệu", "nhạc cụ"],
+        grades: [1,2,3,4,5,6,7,8,9],
+        title: "Môn Âm nhạc (Music)",
+        items: [
+          { en: "Sing along with the melody and clap your hands to the beat.", ipa: "/sɪŋ əˈlɔːŋ wɪð ðə ˈmelədi ænd klæp jɔːr hændz tə ðə biːt/", vi: "Hát theo giai điệu và vỗ tay theo nhịp." },
+          { en: "Musical notes, rhythm, and traditional instruments.", ipa: "/ˈmjuːzɪkl noʊts, ˈrɪðəm, ænd trəˈdɪʃənl ˈɪnstrəmənts/", vi: "Nốt nhạc, tiết tấu và nhạc cụ truyền thống." }
+        ]
+      },
+      {
+        subject: "Mỹ thuật",
+        keywords: ["mỹ thuật", "vẽ", "màu sắc", "bức tranh", "tạo hình"],
+        grades: [1,2,3,4,5,6,7,8,9],
+        title: "Môn Mỹ thuật (Fine Arts)",
+        items: [
+          { en: "Mix primary colors to create secondary colors.", ipa: "/mɪks ˈpraɪmeri ˈkʌlərz tə kriˈeɪt ˈsekənderi ˈkʌlərz/", vi: "Pha các màu cơ bản để tạo thành màu thứ cấp." },
+          { en: "Draw a picture about your school and nature.", ipa: "/drɔː ə ˈpɪktʃər əˈbaʊt jɔːr skuːl ænd ˈneɪtʃər/", vi: "Vẽ một bức tranh về mái trường và thiên nhiên." }
+        ]
+      },
+      {
+        subject: "Giáo dục thể chất",
+        keywords: ["giáo dục thể chất", "thể dục", "khởi động", "xếp hàng", "chạy", "nhảy"],
+        grades: [1,2,3,4,5,6,7,8,9],
+        title: "Môn Giáo dục thể chất (Physical Education)",
+        items: [
+          { en: "Line up in two rows and do warm-up exercises.", ipa: "/laɪn ʌp ɪn tuː roʊz ænd duː ˈwɔːrm ʌp ˈeksərsaɪzɪz/", vi: "Xếp thành hai hàng và tập các động tác khởi động." },
+          { en: "Breathe in deeply and breathe out slowly.", ipa: "/briːð ɪn ˈdiːpli ænd briːð aʊt ˈsloʊli/", vi: "Hít vào thật sâu và thở ra từ từ." }
+        ]
+      },
+      {
+        subject: "Hoạt động trải nghiệm",
+        keywords: ["hoạt động trải nghiệm", "hướng nghiệp", "kỹ năng", "câu lạc bộ", "ngoại khóa"],
+        grades: [1,2,3,4,5,6,7,8,9],
+        title: "Hoạt động trải nghiệm, hướng nghiệp (Experiential Activities)",
+        items: [
+          { en: "Share your feelings and teamwork experience with the class.", ipa: "/ʃer jɔːr ˈfiːlɪŋz ænd ˈtiːmwɜːrk ɪkˈspɪriəns wɪð ðə klæs/", vi: "Chia sẻ cảm xúc và kinh nghiệm làm việc nhóm của em với cả lớp." },
+          { en: "Develop life skills and explore future career interests.", ipa: "/dɪˈveləp laɪf skɪlz ænd ɪkˈsplɔːr ˈfjuːtʃər kəˈrɪr ˈɪntrəsts/", vi: "Phát triển kỹ năng sống và khám phá sở thích nghề nghiệp tương lai." }
+        ]
+      }
+    ];
+
+    // KHỞI TẠO THANH CHỌN KHỐI LỚP 1-9
+    function initGradeBar() {
+      const gradeBar = document.getElementById('gradeBar');
+      for (let g = 1; g <= 9; g++) {
+        const btn = document.createElement('button');
+        btn.className = `grade-btn ${g === currentGrade ? 'active' : ''}`;
+        btn.textContent = `Lớp ${g}`;
+        btn.onclick = () => selectGrade(g);
+        gradeBar.appendChild(btn);
+      }
+      renderSubjects();
+    }
+
+    function selectGrade(grade) {
+      currentGrade = grade;
+      document.getElementById('currentGradeBadge').textContent = `Đang chọn: Lớp ${grade}`;
+      document.querySelectorAll('.grade-btn').forEach((btn, idx) => {
+        btn.classList.toggle('active', idx + 1 === grade);
+      });
+      renderSubjects();
+    }
+
+    // HIỂN THỊ CÁC MÔN HỌC ĐÚNG CHƯƠNG TRÌNH GDPT 2018 CỦA LỚP ĐANG CHỌN
+    function renderSubjects() {
+      const subjectBar = document.getElementById('subjectBar');
+      subjectBar.innerHTML = '';
+
+      const commonChips = [
+        { label: "🗣️ Ổn định lớp", query: "Ổn định lớp" },
+        { label: "👏 Khen ngợi HS", query: "Khen ngợi" }
+      ];
+      commonChips.forEach(c => {
+        const chip = document.createElement('button');
+        chip.className = 'subj-chip situational';
+        chip.textContent = c.label;
+        chip.onclick = () => quickAsk(c.query);
+        subjectBar.appendChild(chip);
+      });
+
+      const subjects = CURRICULUM_2018[currentGrade] || [];
+      subjects.forEach(subj => {
+        const chip = document.createElement('button');
+        chip.className = 'subj-chip';
+        chip.textContent = subj;
+        chip.onclick = () => quickAsk(`${subj} (Lớp ${currentGrade})`);
+        subjectBar.appendChild(chip);
+      });
+    }
+
+    function normalizeText(str) {
+      return str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
+    function speak(text, lang = 'en-US') {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = lang;
+      utterance.rate = 0.9;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function quickAsk(text) {
+      document.getElementById('userInput').value = text;
+      sendMessage();
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('userInput');
+      const rawText = input.value.trim();
+      if (!rawText) return;
+
+      appendMessage(rawText, 'user');
+      input.value = '';
+
+      setTimeout(() => {
+        const replyHtml = generateBotReply(rawText);
+        appendMessage(replyHtml, 'bot', true);
+      }, 200);
+    }
+
+    function generateBotReply(query) {
+      const cleanQuery = normalizeText(query.replace(/\(lớp\s*\d+\)/gi, '').trim());
+      
+      const matches = KNOWLEDGE_BASE.filter(topic => {
+        const gradeMatch = topic.grades.includes(currentGrade);
+        const keywordMatch = topic.keywords.some(kw => cleanQuery.includes(normalizeText(kw))) ||
+                             normalizeText(topic.title).includes(cleanQuery) ||
+                             normalizeText(topic.subject).includes(cleanQuery);
+        return gradeMatch && keywordMatch;
+      });
+
+      if (matches.length === 0) {
+        return `Hiện chưa có mẫu câu khớp với <b>"${query}"</b> ở <b>Lớp ${currentGrade}</b> trong kho dữ liệu rút gọn.<br><br>Thầy/cô hãy bấm vào các thẻ môn học phía trên hoặc đổi sang khối lớp khác phù hợp với môn học (ví dụ: môn <i>Tin học</i> bắt đầu từ Lớp 3, <i>Lịch sử và Địa lí</i> bắt đầu từ Lớp 4).`;
+      }
+
+      return matches.map(topic => {
+        const cards = topic.items.map(item => `
+          <div class="card">
+            <div class="card-top">
+              <div>
+                <div class="en-text">${item.en}</div>
+                <div class="ipa">${item.ipa}</div>
+                <div class="vi-text">${item.vi}</div>
+              </div>
+              <div class="audio-btns">
+                <button class="speak-btn" onclick="speak('${item.en.replace(/'/g, "\\'")}', 'en-US')" title="Giọng Anh - Mỹ">🔊 US</button>
+                <button class="speak-btn" onclick="speak('${item.en.replace(/'/g, "\\'")}', 'en-GB')" title="Giọng Anh - Anh">🔊 UK</button>
+              </div>
+            </div>
+          </div>
+        `).join('');
+        return `<div><div class="topic-header">📌 ${topic.title} — Áp dụng Lớp ${currentGrade}</div>${cards}</div>`;
+      }).join('<br>');
+    }
+
+    function appendMessage(content, sender, isHtml = false) {
+      const container = document.getElementById('messages');
+      const div = document.createElement('div');
+      div.className = `msg ${sender}`;
+      if (isHtml) div.innerHTML = content;
+      else div.textContent = content;
+      container.appendChild(div);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    initGradeBar();
+  </script>
+</body>
+</html>

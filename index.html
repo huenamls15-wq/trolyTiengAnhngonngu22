@@ -326,12 +326,39 @@ HTML
       return str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     }
 
+   let availableVoices = [];
+    function loadVoices() {
+      availableVoices = window.speechSynthesis.getVoices();
+    }
+    loadVoices();
+    if (window.speechSynthesis.onvoiceschanged !== undefined) {
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+
     function speak(text, lang = 'en-US') {
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = lang;
       utterance.rate = 0.9;
+
+      if (availableVoices.length === 0) {
+        availableVoices = window.speechSynthesis.getVoices();
+      }
+
+      // Ép chọn đúng giọng Anh - Mỹ hoặc Anh - Anh chuẩn (ưu tiên giọng Google/Apple tự nhiên)
+      const targetVoices = availableVoices.filter(v =>
+        v.lang.replace('_', '-').toLowerCase().startsWith(lang.toLowerCase())
+      );
+      const preferredVoice =
+        targetVoices.find(v => /google|samantha|daniel|karen|natural|online/i.test(v.name)) ||
+        targetVoices[0];
+
+      if (preferredVoice) {
+        utterance.voice = preferredVoice;
+      }
+
       window.speechSynthesis.speak(utterance);
+    }
     }
 
     function quickAsk(text) {
